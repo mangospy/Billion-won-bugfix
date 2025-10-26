@@ -2,12 +2,7 @@ from PIL import Image
 import imagehash
 import os
 
-# Load secret code from environment variable
-SECRET_CODE = os.getenv("SECRET_CODE")
-
 # Precomputed phash of your secret MRI
-# You compute this on your machine and write the integer value here
-# Participants cannot reverse this to get the MRI
 SECRET_IMAGE_HASH = imagehash.hex_to_hash("952e1a796a786963")
 
 def verify_image(img_path, threshold=10):
@@ -17,7 +12,8 @@ def verify_image(img_path, threshold=10):
 
     if diff <= threshold:
         print("✅ Correct MRI found!")
-        print("🔐 Secret Code:", SECRET_CODE)
+        secret = os.getenv("SECRET_CODE")  # fetched from GitHub Secret
+        print("🔐 Secret Code:", secret)
     else:
         print("❌ Wrong MRI. Try again!")
 
