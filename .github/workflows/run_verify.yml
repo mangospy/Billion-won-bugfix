@@ -1,0 +1,27 @@
+name: Run MRI Verification
+
+on:
+  workflow_dispatch:   # Allows manual trigger from GitHub UI
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run MRI verification
+      env:
+        SECRET_CODE: ${{ secrets.SECRET_CODE }}   # GitHub secret
+      run: |
+        python verify_mri.py
